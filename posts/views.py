@@ -17,12 +17,12 @@ def group_posts(request, slug):
 
 @login_required
 def new_post(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
+    if request.method == "POST":
+        form = PostForm(request.POST or None)
         if form.is_valid():
-            author = request.user
-            form.save()
-            return redirect('index')
-        return render(render, 'new.html', {'form': form})
+            form_instance_updated = form.save(commit=False)
+            form_instance_updated.author = request.user
+            form_instance_updated.save()
+            return redirect("index")
     form = PostForm()
-    return render(request, 'new.html', {'form': form})
+    return render(request, "new.html", {"form": form})
