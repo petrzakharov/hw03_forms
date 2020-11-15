@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Post, Group
+from django.shortcuts import get_object_or_404, redirect, render
+
 from .forms import PostForm
+from .models import Group, Post
 
 
 def index(request):
@@ -17,12 +18,10 @@ def group_posts(request, slug):
 
 @login_required
 def new_post(request):
-    if request.method == "POST":
-        form = PostForm(request.POST or None)
-        if form.is_valid():
-            form_instance_updated = form.save(commit=False)
-            form_instance_updated.author = request.user
-            form_instance_updated.save()
-            return redirect("index")
-    form = PostForm()
+    form = PostForm(request.POST or None)
+    if form.is_valid():
+        form_instance_updated = form.save(commit=False)
+        form_instance_updated.author = request.user
+        form_instance_updated.save()
+        return redirect("index")
     return render(request, "new.html", {"form": form})

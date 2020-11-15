@@ -1,5 +1,6 @@
-from .models import Post
 from django import forms
+
+from .models import Post
 
 
 class PostForm(forms.ModelForm):
@@ -7,10 +8,4 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ("group", "text")
         labels = {"text": "Текст поста", "group": "Группа поста"}
-
-    def check_filled_text(self):
-        data = self.cleaned_data["text"]
-        if len(data.replace(' ', '')) == 0:
-            raise forms.ValidationError("Данное поле должно быть заполнено")
-        return data
-
+        help_texts = {"text": "Напишите ваш пост здесь", "group": "Укажите в какую группу опубликовать пост"}

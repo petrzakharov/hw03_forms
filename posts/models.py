@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
 from django.db.models import TextField
 
 User = get_user_model()
@@ -20,11 +20,11 @@ class Post(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="posts")
     group = models.ForeignKey(
-        "Group", related_name='posts', blank=True, null=True, on_delete=models.SET_NULL)
+        "Group", related_name='posts', blank=True,
+        null=True, on_delete=models.SET_NULL)
 
     class Meta:
         ordering = ["-pub_date"]
 
     def __str__(self):
         return self.text
-
